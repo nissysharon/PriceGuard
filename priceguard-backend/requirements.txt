@@ -1,0 +1,11 @@
+fastapi[all]
+uvicorn
+httpx
+beautifulsoup4
+psycopg2-binary
+SQLAlchemy
+redis
+celery[redis]
+prometheus_client
+alembic
+celery[beat]

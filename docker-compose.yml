@@ -1,0 +1,60 @@
+version: "3.8"
+
+services:
+  backend:
+    build: 
+      context: ./priceguard-backend
+      dockerfile: Dockerfile
+    container_name: priceguard-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@priceguard-postgres:5432/priceguard
+      - PYTHONPATH=/code
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - priceguard-network
+  
+    
+
+  
+  frontend:
+    build: 
+      context: ./priceguard-frontend
+      dockerfile: Dockerfile
+    container_name: priceguard-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - priceguard-network
+    stdin_open: true
+    tty: true
+
+  postgres:
+    image: postgres:13
+    container_name: priceguard-postgres
+    environment:
+      POSTGRES_DB: priceguard
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "password"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - priceguard-network
+  
+  redis:
+    image: redis:alpine
+    container_name: priceguard-redis
+    networks:
+      - priceguard-network
+
+volumes:
+  postgres_data:
+
+networks:
+  priceguard-network:
+    driver: bridge
