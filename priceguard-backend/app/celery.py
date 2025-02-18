@@ -35,6 +35,7 @@ def scrape_and_store_price(url: str, product_id: int):
     finally:
         db.close()
 
+
 @app.on_after_configure.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(

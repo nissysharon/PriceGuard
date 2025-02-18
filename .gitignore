@@ -1,0 +1,35 @@
+# Ignore Mac system files
+.DS_Store
+
+# Ignore node_modules (for React frontend)
+node_modules/
+
+# Ignore Python bytecode
+__pycache__/
+
+# Ignore virtual environments
+venv/
+env/
+
+# Ignore log files
+*.log
+
+# Keep Docker-related files except docker-compose.override.yml
+Dockerfile
+.docker-compose.yml
+*.dockerignore
+
+# Ignore package lock files (optional, depends on your workflow)
+package-lock.json
+yarn.lock
+
+# Ignore database files
+*.sqlite
+*.db
+
+# Ignore IDE-specific files (VSCode, for example)
+.vscode/
+.idea/
+
+# Ignore compiled files
+*.pyc

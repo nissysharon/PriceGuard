@@ -35,13 +35,14 @@ def scrape_multiple_products(urls: list[str]):
             if existing_product:
                 # Update price for existing product
                 existing_product.current_price = price
+                existing_product.last_checked = datetime.utcnow()  # Update last_checked timestamp
                 db.commit()
                 db.refresh(existing_product)
                 logger.info(f"Updated product: {title} with new price: £{price}")
                 all_products.append({"id": existing_product.id, "title": existing_product.title, "current_price": existing_product.current_price})
             else:
                 # Create new product in the database
-                product = Product(title=title, url=url, current_price=price)
+                product = Product(title=title, url=url, current_price=price, last_checked=datetime.utcnow())  # Set last_checked when adding a new product
                 db.add(product)
                 db.commit()
                 db.refresh(product)
@@ -49,4 +50,4 @@ def scrape_multiple_products(urls: list[str]):
                 all_products.append({"id": product.id, "title": product.title, "current_price": product.current_price})
             db.close()
 
-    return all_products  # Return th
+    return all_products  # Return the list of scraped product data
